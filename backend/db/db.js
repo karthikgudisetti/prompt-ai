@@ -2,7 +2,12 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.resolve(__dirname, 'database.sqlite');
+const isVercel = process.env.VERCEL === '1';
+
+const dbPath = isVercel
+  ? '/tmp/database.sqlite'
+  : path.resolve(__dirname, 'database.sqlite');
+
 const db = new sqlite3.Database(dbPath);
 
 const initDB = () => {

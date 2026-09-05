@@ -228,8 +228,13 @@ app.patch('/api/mentor-plans/:id/replan', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-initDB().then(() => seedTaxonomy()).then(() => {
-  app.listen(PORT, () => {
-    console.log(`Backend running on port ${PORT}`);
+
+initDB()
+  .then(() => seedTaxonomy())
+  .catch((err) => {
+    console.error("Database initialization failed:", err);
   });
-}).catch(console.error);
+
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
